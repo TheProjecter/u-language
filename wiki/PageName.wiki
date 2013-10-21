@@ -52,33 +52,33 @@ Let us for a moment think about the current trend in the UML world to do "model 
 
 Can we not conclude from this model driven approach, that:
 
-* Yes the current methodology is too complex
-* Yes, people try to find shortcuts (here, code generation from the model)
-* Yes, it is not so uncommon, that implementations in multiple languages are required.
+  * Yes the current methodology is too complex
+  * Yes, people try to find shortcuts (here, code generation from the model)
+  * Yes, it is not so uncommon, that implementations in multiple languages are required.
 
 However, a model which contains 100% information about the implementation - is it still a model, a simplification, an abstraction? Or just the implementation in another language? It seems very daring to assume that it is cheaper to implement software in a graphical notation (such as UML) than in text form of a programming language. A model is worth its disk space as much as it is able to help communication in a team. Were the model cluttered with 100% implementation details, the model would cease to exist; it would be the implementation.
 
 Is U-language not following the same path to the dark side? Well, maybe, maybe not.
 
 Let us assume:
-* There is a easy-to-learn, yet powerful formal specification language.
+  * There is a easy-to-learn, yet powerful formal specification language.
 State of the art as of now is predominantly free-form text + pictures as specification language.
-* Software design is nothing more but an added layer of requirements, which have dependencies on the original specification, and add partitioning information to the system. Design adds the "how is it done basically" to the "what shall be done" specification.
-* Software tests are always related to specification, be it robustness, functionality or other. The question arises if it need be manual labor to create a test case for a test-able requirement manually: "System beep must not be longer than 1s" -> "If beep-duration > 1s then test fail."
-* It is possible to design U-language as a meta-language. It does not create target platform specific binary code (MSIL, Java byte code, x86, ARM LE, ...) but its output is source text in the standard language, best suited for a particular operating environment. Embedded/Unix -> C, Windows: C# or alike, Java for running on JVM environments, ...
+  * Software design is nothing more but an added layer of requirements, which have dependencies on the original specification, and add partitioning information to the system. Design adds the "how is it done basically" to the "what shall be done" specification.
+  * Software tests are always related to specification, be it robustness, functionality or other. The question arises if it need be manual labor to create a test case for a test-able requirement manually: "System beep must not be longer than 1s" -> "If beep-duration > 1s then test fail."
+  * It is possible to design U-language as a meta-language. It does not create target platform specific binary code (MSIL, Java byte code, x86, ARM LE, ...) but its output is source text in the standard language, best suited for a particular operating environment. Embedded/Unix -> C, Windows: C# or alike, Java for running on JVM environments, ...
 As such, no one would be missing the "model driven" UML approach, either. As the meta-language is platform independent and the mapping to the target language with U-language would work just the same.
-* It is possible to design U-language such, that the language mapping to a specific target language is itself expressed in U-language. So - an implementation of U-language would not explode in lines of code as more and more target languages are added. Instead- another U-language "library" would be created, describing the U-Language to target language mapping and referenced by the U-language code base for a given project.
-* It is possible to create a useful and powerful U-language validator implementation, which detects errors in a U-language code base. Such as contradicting requirements, incomplete requirements (missing cases), requirements, not implemented, etc. which runs naturally along with the compiling and code generation process, which persists derived meta-information and thus speeds up consecutive compiler runs and results in a competitive turn-around.
-* It is possible to have the validator run as a smart-tool during  programming (in the editor) as well.
+  * It is possible to design U-language such, that the language mapping to a specific target language is itself expressed in U-language. So - an implementation of U-language would not explode in lines of code as more and more target languages are added. Instead- another U-language "library" would be created, describing the U-Language to target language mapping and referenced by the U-language code base for a given project.
+  * It is possible to create a useful and powerful U-language validator implementation, which detects errors in a U-language code base. Such as contradicting requirements, incomplete requirements (missing cases), requirements, not implemented, etc. which runs naturally along with the compiling and code generation process, which persists derived meta-information and thus speeds up consecutive compiler runs and results in a competitive turn-around.
+  * It is possible to have the validator run as a smart-tool during  programming (in the editor) as well.
 
 
 = Details =
 
-* U-language shall be minimal (in terms of syntax and keywords)
-* U-language shall be consistent across domains. (Specification syntax coherent with implementation syntax, coherent with test-case syntax, coherent with language mapping syntax).
-* U-language shall be "low ceremony". I.e. not seas of brackets and blocks, no nor nearly no operators which have to be "looked up and learned". Think: More pascal than C in terms of keyword selection.
-* U-language shall neither be bottom up nor top down. I.e. Incompletion is valid and possible, as long as later on, the missing statements are found.
-* U-language shall not try to follow fashions in software development. As such it shall not be a "functional" or "object oriented" or "fill in your favorite paradigm here" language. Every non-trivial software has state and obscure constructs like "monads" in functional programming are not required, as it is clear, that software has state and there is no need to try and hide this fact.
-* U-language shall be Turing complete.
-* U-language shall have a notion of time. (As it comes in with deadlines, parallelism, distributed computing, parallel computing, ...). Preferably, such things will not require dedicated U-language keywords/constructs.
-* U-language shall be declarative rather than imperative whenever there is a design choice.
+  * U-language shall be minimal (in terms of syntax and keywords)
+  * U-language shall be consistent across domains. (Specification syntax coherent with implementation syntax, coherent with test-case syntax, coherent with language mapping syntax).
+  * U-language shall be "low ceremony". I.e. not seas of brackets and blocks, no nor nearly no operators which have to be "looked up and learned". Think: More pascal than C in terms of keyword selection.
+  * U-language shall neither be bottom up nor top down. I.e. Incompletion is valid and possible, as long as later on, the missing statements are found.
+  * U-language shall not try to follow fashions in software development. As such it shall not be a "functional" or "object oriented" or "fill in your favorite paradigm here" language. Every non-trivial software has state and obscure constructs like "monads" in functional programming are not required, as it is clear, that software has state and there is no need to try and hide this fact.
+  * U-language shall be Turing complete.
+  * U-language shall have a notion of time. (As it comes in with deadlines, parallelism, distributed computing, parallel computing, ...). Preferably, such things will not require dedicated U-language keywords/constructs.
+  * U-language shall be declarative rather than imperative whenever there is a design choice.
