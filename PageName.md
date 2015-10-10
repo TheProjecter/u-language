@@ -1,0 +1,84 @@
+# U - language
+
+# Introduction #
+
+## What is a (software) specification? ##
+A specification is a statement on what should be built, what the system built should do. It is descriptive, and focuses on functionality, robustness and all those other facets which describe a system to be built. Yet, usually it does not specify HOW a system should be built, how the problem should be factored, divided and componentized. A well written specification is not contradicting itself, each requirement is written such, that the resulting system can be verified clearly, if it fulfills the requirement or not.
+
+## What is a (software) design model? ##
+A design model is a means of communication, one group (the designers) expresses its ideas and plans as to the high level structure of a software system. How it is to be constructed, its components, its interfaces and dependencies.
+The other group - the implementers hopefully find the design useful to help them understand better how the resulting system will be structured, what happens where.
+
+## What is an implementation? ##
+An implementation is the attempt to build a solution which fulfills the systems requirement specification in a way, depicted by the design model. It utilizes one or many programming languages, such as C, C++, Java, C#, php, ...
+
+## What is a test specification/test plan/test system? ##
+In order to verify if the system built fulfills the requirements specification, tests are usually required.
+
+## What is a system documentation? ##
+To an envisioned audience, the documentation shall pass information about what the system does, how, how the system is to be used, how it basically works. There is usually more than one documentation. One for end users, one for workers who have to maintain/service/enhance the system, ...
+
+## All 5 chapters in a nutshell ##
+Specification: If the button is pressed, the speaker shall do a beep tone, 1kHz, sinus waveform, for the duration of 1 second at the volume of 85dB(a). If the button is still pressed when the duration of the beep tone ends, the tone shall not be re-triggered until the button is being released and pressed again.
+
+Design model: (some UML diagrams, showing the button observer, the controller of the system as a state machine, the waveform generator which drives the speaker).
+
+Implementation: Some lines of C-code (or whatever) implementing the button input, the state machine, the PCM hardware on the CPU, ...
+
+Test: Test case 1: Press button - see if it beeps. 2: Keep button pressed, see does it not continue beeping. 3: ...
+
+Documentation:
+If the button is pressed, the speaker does a beep tone, 1kHz, sinus waveform, for the duration of 1 second at the volume of 85dB(a). If the button is still pressed when the duration of the beep tone ends, the tone will not be re-triggered until the button is being released and pressed again.
+
+
+Please note that the documentation text is identical to the specification text - nearly. Only SHALL has been replaced by WILL or DOES.
+
+It might not be as obvious in other aspects, as with specification/documentation in the example above. But the current split of software development into the well known disciplines creates a lot of duplication, redundancy and extra work. Similarly nearly alike are Specification and change requests resulting from change management discipline. New requirements could - without any theoretical problems equally well be expressed as change requests.
+
+Traceability is a dear pet to process maturity auditors - and with good reason. The question is valid, how those, building a system make sure, that all requirements actually made their way into the implementation or that there are tests for each given requirement and so on. With the currently split tool chains for the various disciplines, traceability is a challenge, realized by companies often in costly, partially manual and tedious ways.
+
+U-language attempts to overcome a lot of the friction, arising today from the heterogeneous and discipline oriented tool and non-tool chains.
+
+The idea of U-language comes from decades of working in software industry in most disciplines and from suffering long hours of non-fulfilling work time spent on getting the development processes applied, consistent and useful.
+
+"The way it is, it is too expensive and complicated."
+
+Let us - for a moment - look into some further details as motivating examples.
+
+What do programmers add to their code usually to help them ensure proper working of their programs? They add checks, tests. Assertions, invariants which can cheaply or not so cheaply be verified (at run or compile time) to make sure the results of a computational step are as intended. Some of those assertions and invariants are specific to the chosen implementation of requirements - others in fact are related to a requirement in the requirement specification. Would it not be cool to be able to easily pick invariants from the specification and apply them to a piece of implementation code? Would it not be cool to state: This function implements requirement XYZ? Would it not be even cooler, if the compiler (or validator) of the language could automatically deduct if cases are missing or invariants of the specification are violated by an implementation? Yes, it would be cool! And would it not be even cooler, if such possibilities were realized by the programming language itself rather than some eye-bleeding special comment language or other forms of code-clobbering gibberish and extra tools? Would a compiler error message like "Function xy in module z violates requirement 4711. "The beeping shall not retrigger if button is pressed at end of beep duration""?
+
+
+Let us for a moment think about the current trend in the UML world to do "model driven" development. A meta-model - language independent expresses the logical structure of the solution. A derived language dependent model maps the language independent model (according to some rule sets) to the language dependent model. Then, partially by code generation from the model, the source code is created.
+
+Can we not conclude from this model driven approach, that:
+
+  * Yes the current methodology is too complex
+  * Yes, people try to find shortcuts (here, code generation from the model)
+  * Yes, it is not so uncommon, that implementations in multiple languages are required.
+
+However, a model which contains 100% information about the implementation - is it still a model, a simplification, an abstraction? Or just the implementation in another language? It seems very daring to assume that it is cheaper to implement software in a graphical notation (such as UML) than in text form of a programming language. A model is worth its disk space as much as it is able to help communication in a team. Were the model cluttered with 100% implementation details, the model would cease to exist; it would be the implementation.
+
+Is U-language not following the same path to the dark side? Well, maybe, maybe not.
+
+Let us assume:
+  * There is a easy-to-learn, yet powerful formal specification language.
+State of the art as of now is predominantly free-form text + pictures as specification language.
+  * Software design is nothing more but an added layer of requirements, which have dependencies on the original specification, and add partitioning information to the system. Design adds the "how is it done basically" to the "what shall be done" specification.
+  * Software tests are always related to specification, be it robustness, functionality or other. The question arises if it need be manual labor to create a test case for a test-able requirement manually: "System beep must not be longer than 1s" -> "If beep-duration > 1s then test fail."
+  * It is possible to design U-language as a meta-language. It does not create target platform specific binary code (MSIL, Java byte code, x86, ARM LE, ...) but its output is source text in the standard language, best suited for a particular operating environment. Embedded/Unix -> C, Windows: C# or alike, Java for running on JVM environments, ...
+As such, no one would be missing the "model driven" UML approach, either. As the meta-language is platform independent and the mapping to the target language with U-language would work just the same.
+  * It is possible to design U-language such, that the language mapping to a specific target language is itself expressed in U-language. So - an implementation of U-language would not explode in lines of code as more and more target languages are added. Instead- another U-language "library" would be created, describing the U-Language to target language mapping and referenced by the U-language code base for a given project.
+  * It is possible to create a useful and powerful U-language validator implementation, which detects errors in a U-language code base. Such as contradicting requirements, incomplete requirements (missing cases), requirements, not implemented, etc. which runs naturally along with the compiling and code generation process, which persists derived meta-information and thus speeds up consecutive compiler runs and results in a competitive turn-around.
+  * It is possible to have the validator run as a smart-tool during  programming (in the editor) as well.
+
+
+# Details #
+
+  * U-language shall be minimal (in terms of syntax and keywords)
+  * U-language shall be consistent across domains. (Specification syntax coherent with implementation syntax, coherent with test-case syntax, coherent with language mapping syntax).
+  * U-language shall be "low ceremony". I.e. not seas of brackets and blocks, no nor nearly no operators which have to be "looked up and learned". Think: More pascal than C in terms of keyword selection.
+  * U-language shall neither be bottom up nor top down. I.e. Incompletion is valid and possible, as long as later on, the missing statements are found.
+  * U-language shall not try to follow fashions in software development. As such it shall not be a "functional" or "object oriented" or "fill in your favorite paradigm here" language. Every non-trivial software has state and obscure constructs like "monads" in functional programming are not required, as it is clear, that software has state and there is no need to try and hide this fact.
+  * U-language shall be Turing complete.
+  * U-language shall have a notion of time. (As it comes in with deadlines, parallelism, distributed computing, parallel computing, ...). Preferably, such things will not require dedicated U-language keywords/constructs.
+  * U-language shall be declarative rather than imperative whenever there is a design choice.
